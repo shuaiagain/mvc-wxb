@@ -1,0 +1,227 @@
+﻿/* ---------------------single CSS----------------------- */
+@charset "utf-8";
+
+
+em {
+    font-style: normal;
+}
+
+.auto {
+    width: 960px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+img {
+    border: 0;
+}
+
+.hide {
+    display: none;
+}
+
+.textLeft {
+    text-align: left;
+}
+
+.textRight {
+    text-align: right;
+}
+
+.textCenter {
+    text-align: center;
+}
+
+.ellipsis {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -moz-text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+}
+
+/*添加、搜索按钮*/
+.btn {
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    background-color: #fff;
+    color: #606266;
+    border: 1px solid #dcdfe6;
+    padding: 0 10px;
+    margin: 0px 5px;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+}
+
+    .btn:hover {
+        color: #409eff;
+        border-color: #c6e2ff;
+        background-color: #ecf5ff;
+    }
+
+.btn-save, .btn-cancel {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    width: 60px;
+    color: #fff;
+    background-color: #409eff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    margin-right: 10px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+}
+
+.clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearBoth {
+    clear: both;
+    overflow: hidden;
+}
+
+/* IE 6/7 */
+.clearfix {
+    zoom: 1;
+}
+
+.cb {
+    clear: both;
+}
+
+.di {
+    display: inline;
+}
+
+.btn-one {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #fff;
+    color: #606266;
+    border: 1px solid #dcdfe6;
+    cursor: pointer;
+    margin-right: 5px;
+    font-size: 12px;
+    text-decoration: none;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+}
+
+    .btn-one:hover {
+        color: #409eff;
+        border-color: #c6e2ff;
+        background-color: #ecf5ff;
+    }
+
+
+/*分页*/
+.page-d {
+    padding: 15px 3px 0 3px;
+    margin: 3px;
+    text-align: center;
+    font-size: 12px;
+    font-family: "å®‹ä½“";
+}
+
+    .page-d a {
+        border: #d9d9d9 1px solid;
+        padding: 7px 12px;
+        margin: 0 7px 0 0;
+        text-decoration: none;
+        color: #000;
+        border-radius: 3px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        -ms-border-radius: 3px;
+    }
+
+    .page-d .delt {
+        pointer-events: none;
+    }
+
+    .page-d span {
+        margin-right: 7px;
+    }
+
+    .page-d a:hover {
+        color: #409eff;
+    }
+
+    .page-d a.on {
+        background-color: #409eff;
+        color: #fff;
+        border: none;
+    }
+
+    .page-d .on {
+        padding: 8px 13px;
+        color: #fff;
+        margin: 0 7px 0 0;
+        background-color: #409eff;
+    }
+
+    .page-d .bgbcbcbc {
+        color: #d9d9d9;
+    }
+
+        .page-d .bgbcbcbc:hover {
+            border: #d9d9d9 1px solid !important;
+            color: #d9d9d9 !important;
+            cursor: default;
+        }
+
+.ask-hover:hover {
+    color: #d9d9d9 !important;
+    background-color: #fff !important;
+    border: #d9d9d9 1px solid !important;
+    cursor: default !important;
+    text-decoration: none;
+}
+
+.ask-hover {
+    color: #d9d9d9 !important;
+    border: #d9d9d9 1px solid !important;
+    cursor: default !important;
+}
+
+.close-btn {
+    position: absolute;
+    display: block;
+    background: url(../images/login/close_def.png) no-repeat;
+    width: 16px;
+    height: 16px;
+    top: 12px;
+    right: 20px;
+    cursor: pointer;
+}
+
+    .close-btn:hover {
+        background: url(../images/login/close_hov.png);
+    }
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.icon-delete {
+    color: #000;
+}

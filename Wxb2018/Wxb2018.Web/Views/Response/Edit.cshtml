@@ -1,0 +1,86 @@
+﻿@using WXB.Bussiness.ViewModels
+@model ResponseStatusView
+@{
+    var response = Model as ResponseStatusView;
+    var status = response.Status.HasValue ? response.Status.Value : 0;
+}
+
+<style type="text/css">
+    .response .rp-title {
+        background: #eee;
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+        padding-left: 10px;
+        font-weight: 600;
+    }
+
+    .response .response-item {
+        line-height: 40px;
+        height: 40px;
+        margin: 8px 10px 0px;
+    }
+
+        .response .response-item .status-title {
+            margin-right: 10px;
+        }
+
+        .response .response-item .status-val {
+            vertical-align: middle;
+        }
+
+        .response .response-item .status-label {
+            margin-right: 5px;
+        }
+
+        .response .response-item .rp-time {
+            line-height: 20px;
+            height: 20px;
+            width: 80px;
+            text-align: center;
+        }
+
+</style>
+
+<div class="response">
+    <div class="rp-title"><span class="title-text">响应状态编辑</span></div>
+    <div class="response-item">
+        <span class="status-title">响应状态</span>
+        <input type="radio" name="status" value="1" class="status-val" id="status-one" />
+        <label for="status-one" class="status-label">应急</label>
+        <input type="radio" name="status" value="5" class="status-val" id="status-two" />
+        <label for="status-two" class="status-label">加强应急</label>
+    </div>
+    <div class="response-item">
+        <span style="margin-right:10px;">响应日期</span>
+        <input type="text" value="@(response.StartTime==null ?"": response.StartTime.Value.ToString("yyyy-MM-dd") )" class="startDate rp-time" />~
+        <input type="text" value="@(response.EndTime==null?"": response.EndTime.Value.ToString("yyyy-MM-dd") )" class="endDate rp-time" />
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function () {
+
+        var selectedStatus = @status;
+        $('input[name="status"]').each(function (i, val) {
+
+            if ($(val).val() == selectedStatus) {
+
+                $(val).prop('checked', true);
+                return;
+            }
+        });
+
+        laydate.render({
+            elem: '.startDate',
+            type: 'date'
+        });
+
+        laydate.render({
+            elem: '.endDate',
+            type: 'date'
+        });
+
+    });
+</script>

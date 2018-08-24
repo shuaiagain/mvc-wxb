@@ -1,0 +1,91 @@
+﻿@using WXB.Bussiness.ViewModels
+@using System.Text
+@using Wxb2018.Utils
+@model NoticeVM
+@{
+    var notice = Model == null ? new NoticeVM() : Model;
+    var attachUrls = string.IsNullOrEmpty(notice.AttachmentUrl) ? new string[] { } : Server.UrlDecode(notice.AttachmentUrl).Split('|');
+}
+
+<style type="text/css">
+    .attachment .attachment-head {
+        background: #eee;
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+        padding-left: 10px;
+        font-weight: 600;
+        position: relative;
+    }
+
+    .attachment .attachment-main .main-title {
+        line-height: 30px;
+        height: 30px;
+        margin: 8px 10px 0px;
+        /*max-width: 500px;*/
+    }
+
+    .attachment .main-title .title-text {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .attachment .main-title .title-val {
+        display: inline-block;
+        width: 420px;
+        vertical-align:bottom;
+    }
+
+    .attachment .uploader-wrap {
+        margin: 10px 0px 0px 10px;
+    }
+
+    .attachment .uploader-list {
+        display: inline-block;
+    }
+
+    .attachment .file-name {
+        display: inline-block;
+        margin-right: 5px;
+        color: blue;
+        max-width: 480px;
+    }
+
+    .attachment .file-size {
+        margin-right: 10px;
+    }
+</style>
+<div class="attachment">
+    <div class="attachment-head">
+        <span class="head-title">通知附件</span>
+        <a class="close-btn attchment-close"></a>
+    </div>
+    <div class="attachment-main">
+        <div class="main-title">
+            <span class="title-text">通知标题</span>
+            <span class="title-val ellipsis" title="@(notice.Title)">@(notice.Title)</span>
+        </div>
+        <!--webuploader文件上传-->
+        <div id="uploader" class="uploader-wrap">
+            <span style="vertical-align:top;">附件</span>
+            <!--用来存放文件信息-->
+            <div id="thelist" class="uploader-list">
+                @if (attachUrls.Length > 0)
+                {
+                    foreach (var item in attachUrls)
+                    {
+                        string[] fileInfo = item.Split('>');
+                        if (fileInfo.Length > 2)
+                        {
+                            <div class="item">
+                                <a class="file-name" data-path="@(fileInfo[0])" data-name="@(fileInfo[1])" data-size="@(fileInfo[2])" href="@(Url.Action("download", "home", new { filePath = fileInfo[0], fileName =fileInfo[1] }))" target="_self">
+                                    @(fileInfo[1])
+                                </a>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,22 @@
+﻿@using Wxb2018
+@{
+    WFFormPrincipal loginUser = User as WFFormPrincipal;
+    if (loginUser == null)
+    {
+        loginUser = new WFFormPrincipal();
+        loginUser.UserData = ViewBag.UserData as WFFormsAuthentication;
+    }
+    WFFormsAuthentication userInfo = loginUser == null ? new WFFormsAuthentication() : loginUser.UserData;
+}
+
+<div class="user-info">
+    <em class="info-title">欢迎您,</em>
+    <div class="info-name">
+        <a href="javascript:void(0);" class="acc_name">
+            <span>@(userInfo.Name)</span>
+        </a>
+        <ul class="info-account">
+            <li><a href="@(Url.Action("logout", "account", new { redirectUrl=Url.Action("login","account") }))">退出</a></li>
+        </ul>
+    </div>
+</div>

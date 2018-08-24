@@ -1,0 +1,14 @@
+packages
+/Wxb2018/DLL/Devx.NET.pdb
+Debug
+/Wxb2018/Wxb2018/Web.Debug.config
+/Wxb2018/Wxb2018/Web.Release.config
+bin
+UploadFiles
+Release
+PublishProfiles
+/Wxb2018/Wxb2018.v12.suo
+/Wxb2018/Wxb2018.Web/Doc/*.tmp
+/Wxb2018/Wxb2018.Web/Doc/~$信办数据字典.docx
+/Wxb2018/Wxb2018.Web/LogInfo/LogError/*
+20180816

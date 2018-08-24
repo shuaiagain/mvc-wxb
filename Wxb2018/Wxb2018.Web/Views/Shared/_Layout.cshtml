@@ -1,0 +1,119 @@
+﻿@using WXB.Bussiness.Common
+@using Wxb2018
+@{
+    WFFormPrincipal loginUser = User as WFFormPrincipal;
+    if (loginUser == null)
+    {
+        loginUser = new WFFormPrincipal();
+        loginUser.UserData = ViewBag.UserData as WFFormsAuthentication;
+    }
+
+    WFFormsAuthentication userInfo = loginUser == null ? new WFFormsAuthentication() : loginUser.UserData;
+    bool isLogin = userInfo == null ? false : true;
+    bool isAdmin = (userInfo != null && userInfo.Flag == (int)EnumIsAdmin.是);
+
+    //是否是'管理员或责编或总编'
+    var maEditor = ((int)EnumRoleType.总编).ToString();
+    var editor = ((int)EnumRoleType.责编).ToString();
+    bool hasRight = isAdmin || (userInfo != null && !string.IsNullOrEmpty(userInfo.RoleTypes) && (userInfo.RoleTypes.Contains(maEditor) || userInfo.RoleTypes.Contains(editor)));
+
+    bool hasRole = isAdmin || (userInfo != null && !string.IsNullOrEmpty(userInfo.RoleTypes));
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <link href="~/content/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="~/content/css/base.css" rel="stylesheet" type="text/css" />
+    <link href="~/content/iconfont/iconfont.css" rel="stylesheet" type="text/css" />
+    <link href="~/content/plugins/pagination/pagination.css" rel="stylesheet" type="text/css" />
+    @RenderSection("head", false)
+    <script type="text/javascript" src="~/Content/plugins/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="~/Content/plugins/layer/layer.js"></script>
+    <script type="text/javascript" src="~/Content/plugins/laydate/laydate.js"></script>
+    <script type="text/javascript" src="~/Content/plugins/pagination/jquery.pagination.js"></script>
+</head>
+<body>
+
+    <div class="topBar">
+        <div class="mCon">
+            <div class="topcon clearfix">
+
+                @if (isLogin)
+                {
+                     <!--通知查询-->
+                    <div class="home">
+                        <a class="iconfont icon-notice"></a><a href="@Url.Action("Index", "Home")">通知查询</a>
+                    </div>
+                }
+
+                @if (isLogin && isAdmin)
+                {
+                    <!--值班/登录记录-->
+                    <div class="record">
+                        <a class="record-text">
+                            <span class="iconfont icon-record"></span><span>记录查询</span>
+                        </a>
+                        <ul class="record-type">
+                            <li><a href="@Url.Action("index","dutylog")">值班记录</a></li>
+                            <li><a href="@Url.Action("index","log")">登录记录</a></li>
+                        </ul>
+                    </div>
+                }
+
+                @if (isLogin)
+                {
+                    <!--响应状态-->
+                    <div class="response">
+                        <span class="response-text"><a class="iconfont icon-gear" href="javascript:void(0);" title="设置" style="@(hasRight?"":"display:none;")"></a><a class="response-icon">响应状态：</a></span><span class="response-val" data-status="1" data-id=""></span>
+                    </div>
+
+                       <!--值班-->
+                    <div class="dutylog">
+                        <span class="onduty-text">值班人员：</span><span class="onduty-names dutyuser ellipsis"></span>
+                    </div>
+                }
+
+                @if (isLogin && hasRole)
+                {
+                     <!--打卡-->
+                    <div class="punch" data-dutyid="">
+                        <span class="iconfont icon-punchin show-font" title="上班打卡" style="display:none;"></span><span class="punchin-text" style="display:none;">上班打卡</span>
+                        <span class="iconfont icon-punchout show-font" title="下班打卡" style="display:none;"></span><span class="punchout-text" style="display:none;">下班打卡</span>
+                    </div>
+                }
+
+                <!--登录-->
+                <div class="login">
+                    <span>
+                        <a href="javascript:void(0);" class="loginBtn denglu" id="btnconf">登录</a>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        @RenderBody()
+    </div>
+
+    <div>
+        <input type="hidden" name="isLogin" value="@(isLogin)" />
+        <input type="hidden" name="loginHeadPartialUrl" value="@Url.Action("LoginHeadPartial", "Account")" />
+        <input type="hidden" name="accountPartialUrl" value="@Url.Action("AccountPartial", "Account")" />
+        <input type="hidden" name="addDutyLogUrl" value="@Url.Action("Add", "DutyLog")" />
+        <input type="hidden" name="updateDutyStatusUrl" value="@Url.Action("UpdateDutyStatus", "DutyLog")" />
+        <input type="hidden" name="getUserDutyLogUrl" value="@Url.Action("GetUserDutyLog", "DutyLog")" />
+        <input type="hidden" name="getResponseStatusUrl" value="@Url.Action("GetResponseStatus", "Response")" />
+        <input type="hidden" name="editResponseUrl" value="@Url.Action("edit", "Response")" />
+        <input type="hidden" name="saveResponseUrl" value="@Url.Action("SaveResponse", "Response")" />
+        <input type="hidden" name="loginUrl" value="@Url.Action("Login", "Account")" />
+    </div>
+    <script type="text/javascript" src="~/Content/js/layout.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>

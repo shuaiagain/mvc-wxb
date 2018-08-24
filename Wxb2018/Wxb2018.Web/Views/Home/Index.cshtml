@@ -1,0 +1,374 @@
+﻿@using WXB.Bussiness.ViewModels
+@using Wxb2018.Web.Utils
+@using WXB.Bussiness.Common
+@using Wxb2018
+@model PageVM<NoticeVM>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var totalCount = Model == null ? 0 : Model.TotalCount;
+    var userData = ViewBag.UserData as WFFormsAuthentication;
+    var masterEditor = ((int)EnumRoleType.总编).ToString();
+    var editor = ((int)EnumRoleType.责编).ToString();
+    bool hasRight = userData.Flag == (int)EnumIsAdmin.是 || (!string.IsNullOrEmpty(userData.RoleTypes) && (userData.RoleTypes.Contains(masterEditor) || userData.RoleTypes.Contains(editor)));
+}
+
+<div class="notice-list">
+    <div class="list-search">
+        通知日期：
+        <input type="text" name="startTime" class="startTime" /><span class="wrap-symbol">～</span><input type="text" name="endTime" class="endTime" />
+        <input type="text" class="keywords" placeholder="输入通知标题" />
+        <a href="javascript:void(0);" class="search btn">搜索</a>
+        @if (hasRight)
+        {
+            <a href="@(Url.Action("add","home"))" class="add btn">添加</a>
+        }
+    </div>
+    <div class="list-content">
+        <table id="noticeTable" class="list-table" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <td style="width:25%;">通知标题</td>
+                    <td style="width:4%;">附件</td>
+                    <td style="width:9%;">通知日期</td>
+                    <td style="width:25%;">反馈内容</td>
+                    <td style="width:8%;">反馈人</td>
+                    <td style="width:9%;">反馈日期</td>
+                    <td style="width:200px;">操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Data != null && Model.Data.Count > 0)
+                {
+                    foreach (var item in Model.Data)
+                    {
+                        <tr data-id="@(item.ID)">
+                            <td class="textLeft ellipsis">
+                                <a title="@(item.Title)" target="_blank" href="@Url.Action("ViewNotice", "Home", new { noticeId = item.ID })">@(item.Title)</a>
+                            </td>
+                            <td class="textCenter">
+                                @*@if (!string.IsNullOrEmpty(item.FilePath))*@
+                                @if (!string.IsNullOrEmpty(item.AttachmentUrl))
+                                {
+                                    <a class="iconfont icon-attachment" title="附件"></a>
+                                }
+                            </td>
+                            <td class="textCenter nowrap">@(item.UpdateTime.ToString().DateTimeFormat("yyyy-MM-dd"))</td>
+                            <td class="textLeft ellipsis" title="@(item.FeedBack)">@(item.FeedBack)</td>
+                            <td class="textLeft">@(item.FeedBacker)</td>
+                            <td class="textCenter nowrap">@( item.FeedBackTime.ToString().DateTimeFormat("yyyy-MM-dd"))</td>
+                            @if (hasRight)
+                            {
+                                <td class="textCenter last-td" style="font-size:0px;">
+                                    <a class="feedback btn-one">反馈</a>
+                                    <a class="edit btn-one" href="@(Url.Action("Edit", "Home", new { noticeId=item.ID}))">修改</a>
+                                    <a class="delete btn-one">删除</a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="textCenter last-td" style="font-size:0px;height:28px;"></td>
+                            }
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="no-data">
+                        <td colspan="7">
+                            <span>暂无数据</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="list-page" style="width:100%;margin-top:15px;text-align:center;">
+            <div id="notice-pagination" class="m-style" style="display:inline-block;"></div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(function () {
+
+            var _totalCount = @totalCount,
+                  _hasRight = '@hasRight',
+                   _viewUrl = '@Url.Action("ViewNotice", "Home")',
+                   _editUrl = '@Url.Action("Edit", "Home")',
+                 _searchUrl = '@Url.Action("GetNoticePageData", "Home")',
+               _downloadUrl = '@(Url.Action("Download", "Home"))';
+
+            var  pageOptions={
+                isHide:true,
+                //mode:'fixed',
+                keepShowPN:false,
+                coping:true,
+                count:2,
+                prevContent: '<',
+                nextContent: '>',
+                totalData:_totalCount,
+                showData:8,
+                callback: function (api) {
+
+                    var  params = {
+                        PageIndex: api.getCurrent(),
+                        StartTime:$('.startTime').val(),
+                        EndTime:$('.endTime').val()
+                    };
+
+                    getNotice(params,false)
+                }
+            };
+
+            //绑定分页
+            $('#notice-pagination').pagination(pageOptions);
+            if(_totalCount==0)$('#notice-pagination').hide();
+
+            $('.topBar .home').addClass('topBar-active');
+            bindEvent();
+
+            //值班日期
+            laydate.render({
+                elem: '.startTime',
+                type: 'date'
+            });
+
+            laydate.render({
+                elem: '.endTime',
+                type: 'date'
+            });
+
+            //enter 查询
+            $('.keywords').on('keydown', function (e) {
+
+                if (e.keyCode == 13) {
+                    $('.search').trigger('click');
+                }
+            });
+
+            //查询
+            $('.search').on('click',function(e){
+
+                var  params = {
+                    KeyWord:$('.keywords').val(),
+                    StartTime:$('.startTime').val(),
+                    EndTime:$('.endTime').val()
+                };
+
+                getNotice(params,true);
+            });
+
+            //渲染table数据
+            function renderHtml(list){
+
+                var tempHtml='';
+                if(!list || list.length==0)return tempHtml;
+
+                for (var i = 0; i <list.length; i++) {
+
+                    tempHtml+='<tr data-id="'+list[i].ID+'">'+
+                                  '<td class="textLeft ellipsis">'+
+                                      '<a title="'+list[i].Title+'" target="_blank" href="'+(_viewUrl+"?noticeId="+list[i].ID)+'">'+list[i].Title+'</a>'+
+                                  '</td>'+
+                                  '<td class="textCenter">'+
+                                       '<a class="iconfont icon-attachment" title="附件" style="'+(list[i].AttachmentUrl?"":"display:none")+'"></a>'+
+                                  '</td>'+
+                                  '<td class="textCenter nowrap">'+list[i].UpdateTimeStr+'</td>'+
+                                  '<td class="textLeft ellipsis" title="'+list[i].FeedBack+'">'+list[i].FeedBack+'</td>'+
+                                  '<td class="textLeft">'+list[i].FeedBacker+'</td>'+
+                                  '<td class="textCenter nowrap">'+list[i].FeedBackTimeStr+'</td>';
+
+
+                    if(_hasRight=='True')
+                    {
+                        tempHtml+='<td class="textCenter last-td" style="font-size:0px;">'+
+                                      '<a class="feedback btn-one">反馈</a>'+
+                                      '<a class="edit btn-one" href="'+(_editUrl+'?noticeId='+list[i].ID)+'">修改</a>'+
+                                      '<a class="delete btn-one">删除</a>'+
+                                   '</td>';
+                    }else{
+                        tempHtml+='<td class="textCenter last-td" style="font-size:0px;height:28px;"></td>';
+                    }
+
+                    tempHtml+=  '</tr>';
+                }
+
+                return tempHtml;
+            }
+
+            //获取查询数据
+            function getNotice(params,isBindPagination){
+
+                $.post(_searchUrl, params, function (data) {
+
+                    var dataHtml='';
+                    if (data.Code < 0) {
+                        dataHtml=   '<tr class="no-data">'+
+                                        '<td colspan="7"><span>暂无数据</span></td>'+
+                                    '</tr>';
+
+                        //设置为0时显示的不对，暂时设为1是可以的
+                        pageOptions.totalData=1;
+                    }else{
+
+                        var backData = data.Data,
+                                list = backData.Data;
+
+                        pageOptions.totalData=backData.TotalCount?backData.TotalCount:0;
+                        dataHtml=renderHtml(list);
+                    }
+
+                    $('#noticeTable tbody').html(dataHtml);
+
+                    //绑定事件
+                    bindEvent();
+
+                    //点击'搜索'按钮需要重新绑定分页
+                    if(isBindPagination){
+                        //重新绑定分页
+                        $('#notice-pagination').pagination(pageOptions);
+                    }
+                });
+            }
+
+            //删除通知
+            function delNotice(noticeId) {
+
+                var delUrl = '@(Url.Action("Delete", "Home"))';
+                $.post(delUrl, { noticeId: noticeId }, function (data)  {
+
+                    if (data.Code > 0) {
+                        $('.search').trigger('click');
+                        alert('删除成功');
+                    }
+                });
+            }
+
+            function showAttachment(noticeId){
+
+                var showAttachmentUrl='@Url.Action("ShowAttachment", "Home")'+'?noticeId='+noticeId;
+                $.get(showAttachmentUrl,function(backHtml){
+
+                    var options = {
+                        title: false,
+                        type: 1,
+                        skin: 'show-attachment',
+                        area: ['540px', '300px'],
+                        closeBtn: false,
+                        shade: 0.3,
+                        offset: ['100px'],
+                        move: false,
+                        content: backHtml,
+                        success: function (layero, index) {
+
+                            //关闭dialog
+                            $('.attchment-close').on('click',function(){
+                                layer.close(index);
+                            });
+                        }
+                    };
+
+                    layer.open(options);
+                });
+            }
+
+            //修改反馈
+            function editFeedback(noticeId){
+
+                var editFeedbackUrl='@Url.Action("EditFeedback", "Home")'+'?noticeId='+noticeId;
+                $.get(editFeedbackUrl,function(backHtml){
+
+                    var options = {
+                        title: false,
+                        type: 1,
+                        skin: 'feedback-edit layer-show',
+                        area: ['560px', '340px'],
+                        closeBtn: false,
+                        shade: 0.3,
+                        offset: ['100px'],
+                        move: false,
+                        content: backHtml,
+                        btn:['保 存','取 消' ],
+                        //btnAlign:'c',//无效
+                        yes: function(index, layero){
+
+                            var feedbackTime=$('.feedbackTime').val();
+                            var feedback=$('.feedbackContent').val();
+                            if($.trim(feedbackTime)==''){
+
+                                alert('反馈日期不能为空');
+                                return false;
+                            }
+
+                            if($.trim(feedback)==''){
+                                alert('反馈内容不能为空');
+                                return false;
+                            }
+
+                            var feedbackUrl='@(Url.Action("SaveFeedback","Home"))';
+                            var params={
+                                ID:noticeId,
+                                FeedBackTime:feedbackTime,
+                                FeedBack:feedback,
+                            };
+
+                            //保存反馈
+                            $.post(feedbackUrl,params,function(data){
+
+                                if(data.Code<0)
+                                {
+                                    alert(data.Msg);
+                                    return false;
+                                }
+
+                                alert(data.Msg);
+                                $('.search').trigger('click');
+
+                                layer.close(index);
+                            });
+
+                        },
+                        btn2:function(index, layero){
+
+                            layer.close(index);
+                        },
+                        success: function (layero, index) {
+                            //按钮居中
+                            layero.find('.layui-layer-btn').css('text-align','center');
+                        }
+                    };
+
+                    layer.open(options);
+                });
+            }
+
+            //绑定事件
+            function bindEvent() {
+
+                //删除
+                $('.delete').on('click', function () {
+
+                    if (confirm('确定删除吗？')) {
+
+                        delNotice($(this).parents('tr:first').data('id'));
+                    }
+                });
+
+                //反馈
+                $('.feedback').on('click',function(e){
+
+                    editFeedback($(this).parents('tr:first').data('id'));
+                });
+
+                //展示附件
+                $('.icon-attachment').on('click',function(e){
+                    showAttachment($(this).parents('tr:first').data('id'));
+                });
+            }
+        });
+    </script>
+}

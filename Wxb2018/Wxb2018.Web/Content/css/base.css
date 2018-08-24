@@ -1,0 +1,788 @@
+﻿
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body, div, form, img, dl, dt, tr, td, dd, ul, li, h1, h2, h3, h4, input, p, a, form, table {
+    margin: 0;
+    padding: 0;
+    font-size: 100%;
+}
+
+input, textarea {
+    outline: none;
+}
+
+ul {
+    list-style: none;
+}
+
+img {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+td, input {
+    font-size: 12px;
+    font-family: "sans-serif";
+}
+
+body {
+    background-color: #f1f2f7;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    font-size: 12px;
+    font-family: "sans-serif";
+    width: 100%;
+    min-width: 1000px;
+}
+
+/*头部*/
+.topBar {
+    background: #111;
+    height: 36px;
+    line-height: 36px;
+    color: #DDD;
+    width: 100%;
+    font-family: "sans-serif";
+}
+
+    .topBar a {
+        color: #DDD;
+        text-decoration: none;
+    }
+
+        .topBar a:hover {
+            color: #DDD;
+        }
+
+.topcon {
+    font-size: 12px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.mCon {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.topcon .login {
+    float: right;
+    text-align: right;
+    height: 36px;
+}
+
+    .topcon .login .loginBtn {
+        display: inline-block;
+        width: 48px;
+        height: 36px;
+        text-align: center;
+    }
+
+        .topcon .login .loginBtn:hover {
+            background: #333;
+            color: #fff;
+            text-decoration: none;
+            width: 48px;
+            height: 36px;
+        }
+
+/*dialog 中的按钮*/
+.layui-layer-btn a {
+    border-color: #4898d5 !important;
+    background-color: #2e8ded !important;
+    color: #fff !important;
+}
+
+/*用户头像模块*/
+.user-info {
+    display: inline-block;
+    height: 36px;
+    position: relative;
+}
+
+    .user-info .info-title {
+        margin-left: 13px;
+    }
+
+    .user-info .info-name {
+        display: inline-block;
+        vertical-align: top;
+        text-align: center;
+    }
+
+        .user-info .info-name .acc_name {
+            display: inline-block;
+            padding: 0px 16px;
+            padding-right: 10px;
+            background: url(../images/login/icon_rt.png) 0px no-repeat;
+        }
+
+    .user-info .info-account {
+        display: none;
+        text-align: center;
+        background-color: #5d5a5a;
+        position: absolute;
+        right: 0px;
+    }
+
+        .user-info .info-account li {
+            height: 30px;
+            line-height: 30px;
+        }
+
+            .user-info .info-account li a {
+                padding: 0px 15px;
+                display: inline-block;
+            }
+
+            .user-info .info-account li:hover {
+                background-color: #000;
+            }
+
+/*登录弹窗*/
+.login-layer, .response-show, .user-data, .layer-show, .show-attachment {
+    border: none !important;
+}
+
+.denglu-box {
+    background: #fff;
+}
+
+.enter-2 .title-close {
+    height: 48px;
+    line-height: 48px;
+    padding: 0px 20px;
+    color: #333;
+    font-size: 24px;
+    border-bottom: 1px solid #efefef;
+    background: #f5f5f5;
+}
+
+.enter-2 .closeBtn {
+    position: absolute;
+    display: block;
+    background: url(../images/login/close_def.png) no-repeat;
+    width: 16px;
+    height: 16px;
+    top: 12px;
+    right: 20px;
+    cursor: pointer;
+}
+
+    .enter-2 .closeBtn:hover {
+        background: url(../images/login/close_hov.png);
+    }
+
+.enter-2 ul li {
+    text-align: center;
+}
+
+.enter-2 input[type="checkbox"]:focus {
+    border: none;
+}
+
+.enter-2 input[type="checkbox"] {
+    margin-top: -3px;
+}
+
+.enter-2 .text-2 {
+    background: #fff url(../images/login/zhanghu.png) no-repeat 10px 10px;
+    margin: 25px 0 0 0;
+    *margin: 25px 0 0 -30px;
+    width: 320px;
+    height: 40px;
+    font-size: 14px;
+    text-indent: 30px;
+    color: #333;
+    outline: medium;
+    line-height: 40px\9;
+    border: 1px solid #dbdbdb;
+}
+
+.enter-2 .ckbox {
+    text-align: left;
+    margin: 0 0 0 40px;
+    *margin: 10px 0 0 35px;
+}
+
+    .enter-2 .ckbox #lg-rememberMe {
+        vertical-align: bottom;
+    }
+
+    .enter-2 .ckbox em {
+        margin-left: 5px;
+    }
+
+.enter-2 .password-2 {
+    background: #fff url(../images/login/mima-1.png) no-repeat 10px 10px;
+    margin: 20px 0 10px 0;
+    *margin: 25px 0 0 -30px;
+    width: 320px;
+    height: 40px;
+    font-size: 14px;
+    text-indent: 30px;
+    color: #333;
+    outline: medium;
+    line-height: 40px\9;
+    border: 1px solid #dbdbdb;
+}
+
+.anchor-2 a {
+    text-decoration: underline;
+    font-family: "SimSun";
+    color: #333333;
+}
+
+.denglu-but {
+    width: 100%;
+    text-align: center;
+    margin-top: 25px;
+}
+
+
+.toggle-add1 {
+    background: url(../images/toggle-add1.gif) !important;
+}
+
+.denglu-but a {
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    background-color: #409eff;
+    padding: 0px 30px;
+    font-size: 14px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+}
+
+    .denglu-but a:hover {
+        color: #fff;
+        text-decoration: none;
+    }
+
+.error {
+    position: absolute;
+    height: 30px;
+    line-height: 30px;
+    margin-left: 40px;
+    display: none;
+    color: #e62222;
+}
+
+
+.topBar-active {
+    background-color: #5d5a5a !important;
+}
+
+.topcon .home {
+    height: 36px;
+    line-height: 36px;
+    float: left;
+    padding: 0px 8px;
+}
+
+    .topcon .home:hover {
+        background-color: #5d5a5a;
+        cursor: default;
+    }
+
+    .topcon .home .icon-notice {
+        margin-right: 2px;
+        font-size: 14px;
+    }
+
+.topcon .response {
+    float: left;
+    text-align: left;
+    height: 36px;
+    padding: 0px 8px;
+    margin-left: 20px;
+}
+
+    .topcon .response .response-text, .icon-gear {
+        display: inline-block;
+        height: 36px;
+        line-height: 36px;
+        padding: 0px 3px;
+    }
+
+        .topcon .response .response-text .icon-gear {
+            font-size: 14px;
+        }
+
+            .topcon .response .response-text .icon-gear:hover {
+                background-color: #5d5a5a;
+            }
+
+
+.topcon .dutylog {
+    float: left;
+    height: 36px;
+    line-height: 38px;
+    padding: 0px 8px;
+}
+
+.topcon .dutyuser {
+    display: inline-block;
+    max-width: 200px;
+    vertical-align: top;
+    line-height: 36px;
+    height: 36px;
+}
+
+.topcon .punch {
+    height: 36px;
+    line-height: 36px;
+    float: right;
+    padding: 0px 8px;
+}
+
+    .topcon .punch .icon-punchin {
+        display: inline-block;
+        height: 36px;
+        line-height: 36px;
+        padding: 0px 3px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+    .topcon .punch .icon-punchout {
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+        .topcon .punch .icon-punchout:hover {
+            background-color: #5d5a5a;
+        }
+
+    .topcon .punch .icon-punchout {
+        display: inline-block;
+        height: 36px;
+        line-height: 36px;
+        padding: 0px 3px;
+    }
+
+    .topcon .punch .icon-punchin:hover {
+        background-color: #5d5a5a;
+    }
+
+
+    .topcon .punch .show-font {
+        cursor: pointer;
+    }
+
+/*记录*/
+.record {
+    height: 36px;
+    line-height: 36px;
+    background-color: #000;
+    float: left;
+    position: relative;
+}
+
+    .record:hover {
+        background-color: #5d5a5a;
+    }
+
+    .record .record-text {
+        display: inline-block;
+        cursor: pointer;
+        padding: 0px 8px;
+    }
+
+        .record .record-text .icon-record {
+            margin-right: 2px;
+            font-size: 12px;
+        }
+
+    .record .record-type {
+        background-color: #5d5a5a;
+        position: absolute;
+        top: 36px;
+    }
+
+        .record .record-type li {
+            padding: 0px 4px;
+        }
+
+            .record .record-type li:hover {
+                background-color: #000;
+                cursor: pointer;
+            }
+
+            .record .record-type li a {
+                width: 70px;
+                text-align: center;
+                display: inline-block;
+            }
+
+    .record .record-type {
+        display: none;
+    }
+
+/*响应状态编辑弹窗*/
+#responseDiv {
+    display: none;
+    height: 100%;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+}
+
+    #responseDiv .rp-title {
+        background: #eee;
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+        padding-left: 10px;
+        font-weight: 600;
+    }
+
+    #responseDiv .rp-footer {
+        text-align: center;
+        line-height: 40px;
+        height: 40px;
+        /*background: #eee;*/
+        margin-top: 10px;
+    }
+
+/*日期样式搜索*/
+.startTime, .endTime {
+    width: 80px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    border: 1px solid #dcdfe6;
+    margin-right: 5px;
+}
+
+    .startTime:focus {
+        border: 1px solid #409eff;
+    }
+
+    .endTime:focus {
+        border: 1px solid #409eff;
+    }
+
+.main {
+    width: 100%;
+    /*min-width: 80%;*/
+    /*overflow: hidden;*/
+}
+
+/*搜索部分样式*/
+.main-list {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+
+.notice-list {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+}
+
+.list-search {
+    height: 50px;
+    line-height: 50px;
+    margin: 20px 0px;
+    padding: 0px 10px;
+}
+
+    .list-search .add {
+        float: right;
+        margin-top: 10px;
+    }
+
+    .list-search .wrap-symbol {
+        margin-right: 5px;
+    }
+
+.search-title {
+    color: #a9a9a9;
+}
+
+.keywords {
+    width: 220px;
+    height: 28px;
+    line-height: 28px;
+    color: #a9a9a9;
+    padding-left: 10px;
+    outline: none;
+    border: 1px solid #dcdfe6;
+}
+
+.list-search .keywords:focus {
+    border: 1px solid #409eff;
+}
+
+.list-content {
+    padding: 0px 10px;
+    min-height: 450px;
+}
+
+
+/*table样式*/
+.list-table {
+    table-layout: fixed;
+    border: 1px solid #ddd;
+    height: 42px;
+    width: 100%;
+    border-top: 0;
+    border-collapse: collapse;
+    border-spacing: 0px;
+}
+
+    .list-table a {
+        text-decoration: none;
+        color: #000;
+    }
+
+    .list-table .icon-attachment {
+        color: #000;
+        cursor: pointer;
+    }
+
+    .list-table thead tr td {
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    .list-table thead tr td {
+        border-top: 1px solid #ddd;
+    }
+
+    .list-table > tbody > tr:hover {
+        background: #f5f5f5;
+    }
+
+    .list-table > tbody > tr > td {
+        border-top: 1px solid #ddd !important;
+        padding: 10px 5px;
+    }
+
+        .list-table > tbody > tr > td:first-child a:hover {
+            cursor: pointer;
+            text-decoration: underline;
+            color: #646464;
+        }
+
+        .list-table > tbody > tr > td.last-td {
+            font-size: 0px;
+        }
+
+.no-data {
+    text-align: center;
+    line-height: 100px;
+    height: 100px;
+    font-size: 20px !important;
+    color: #999;
+}
+
+    .no-data:hover {
+        background: none !important;
+    }
+
+/*尾部*/
+.footer {
+    padding: 20px 0px;
+}
+
+.footer-content {
+    color: #999 !important;
+}
+
+    .footer-content .content-one {
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .footer-content a:hover {
+        text-decoration: none;
+        color: #f00;
+    }
+
+.font-color {
+    color: #999;
+}
+
+
+/*通知添加页面*/
+.notice {
+    width: 960px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+}
+
+.marginTop20 {
+    margin-top: 20px;
+}
+
+.notice-main {
+    margin-top: 20px;
+}
+
+.notice-title .title-value {
+    width: 620px;
+    height: 26px;
+    line-height: 26px;
+    outline: none;
+    padding: 0px 5px;
+}
+
+.notice-content .content-text {
+    vertical-align: top;
+}
+
+.notice-content .content-value {
+    width: 620px;
+    min-height: 240px;
+    resize: vertical;
+    padding: 5px;
+}
+
+.notice-main .notice-time .updateTime {
+    line-height: 20px;
+    height: 20px;
+    width: 80px;
+    text-align: center;
+}
+
+.user-way {
+    height: 50px;
+    line-height: 50px;
+}
+
+    .user-way .way-content {
+        display: inline-block;
+        margin-left: 5px;
+    }
+
+        .user-way .way-content input {
+            vertical-align: middle;
+        }
+
+        .user-way .way-content label {
+            margin-right: 10px;
+        }
+
+    .user-way .way-choose {
+        width: 36px;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .user-way .active-chooseway {
+        color: #409eff;
+        border-color: #c6e2ff;
+        background-color: #ecf5ff;
+    }
+
+.user-list .list-text {
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 2px;
+}
+
+.user-list .list-con {
+    display: inline-block;
+    width: 630px;
+}
+
+    .user-list .list-con span {
+        border: none;
+        padding: 1px 5px;
+        margin: 0px 5px 5px;
+        display: inline-block;
+        cursor: default;
+    }
+
+.notice-save .save, .goBack {
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    width: 60px;
+    color: #fff;
+    background-color: #409eff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    text-align: center;
+    margin-right: 10px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+}
+
+.user-show .show-title {
+    background-color: #eee;
+    padding: 6px 10px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.user-show {
+    height: 100%;
+    /*display: none;*/
+}
+
+    .user-show .show-content {
+        height: 190px;
+    }
+
+    .user-show .show-small {
+        height: 100px;
+        overflow: hidden;
+    }
+
+    .user-show .show-content .content-item {
+        margin: 10px;
+    }
+
+        .user-show .show-content .content-item .item-wrap {
+            display: inline-block;
+            width: 72px;
+        }
+
+        .user-show .show-content .content-item .wrap-text {
+            display: inline-block;
+            vertical-align: bottom;
+            width: 48px;
+        }
+
+    .user-show .show-content input {
+        vertical-align: middle;
+    }
+
+    .user-show .show-content label {
+        margin-right: 10px;
+    }
+
+    .user-show .show-footer {
+        height: 50px;
+        text-align: center;
+        height: 50px;
+        line-height: 50px;
+        /*background-color: #eee;*/
+    }
+
+.uploader-list .item {
+    padding: 0px 0px 8px;
+}

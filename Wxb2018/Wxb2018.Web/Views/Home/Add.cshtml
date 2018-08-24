@@ -1,0 +1,117 @@
+﻿@using WXB.Bussiness.ViewModels
+@using System.Text
+@using Wxb2018.Utils
+@model NoticeVM
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var notice = Model == null ? new NoticeVM() : Model;
+    var updateTime = notice.UpdateTime.HasValue ? notice.UpdateTime.Value.ToString("yyyy-MM-dd") : DateTime.Now.ToString("yyyy-MM-dd");
+    var receivers = notice.NoticeReceiver == null || notice.NoticeReceiver.Count == 0 ? new List<ReceiverVM>() : notice.NoticeReceiver;
+    var receiverRoles = notice.NoticeReceiveRoles == null || notice.NoticeReceiveRoles.Count == 0 ? new List<UserRoleVM>() : notice.NoticeReceiveRoles;
+    var attachUrls = string.IsNullOrEmpty(notice.AttachmentUrl) ? new string[] { } : Server.UrlDecode(notice.AttachmentUrl).Split('|');
+}
+@section head{
+    <link rel="stylesheet" href="~/Content/plugins/webuploader/webuploader.css" />
+}
+<div class="notice">
+
+    <div class="notice-main">
+        <div class="notice-title">
+            <span>通知标题</span>
+            <input type="text" value="@(notice.Title)" name="noticeTitle" class="title-value" />
+        </div>
+        <div class="notice-content marginTop20">
+            <span class="content-text">通知内容</span>
+            <textarea class="content-value" name="noticeContent">@(notice.Content)</textarea>
+        </div>
+
+        <div class="notice-time marginTop20">
+            <span>通知日期</span>
+            <span>
+                <span class="updateTime">@(updateTime)</span>
+            </span>
+        </div>
+
+        <!--webuploader文件上传-->
+        <div id="uploader" class="uploader-wrap marginTop20">
+            <!--用来存放文件信息-->
+            <div id="thelist" class="uploader-list">
+                @if (attachUrls.Length > 0)
+                {
+                    foreach (var item in attachUrls)
+                    {
+                        string[] fileInfo = item.Split('>');
+                        if (fileInfo.Length > 2)
+                        {
+                            <div class="item">
+                                <a class="file-name" data-path="@(fileInfo[0])" data-name="@(fileInfo[1])" data-size="@(fileInfo[2])" href="@(Url.Action("download", "home", new { filePath = fileInfo[0], fileName =fileInfo[1] }))" target="_self" style="display:inline-block;margin-right:5px;color:blue;">
+                                    @(fileInfo[1])
+                                </a><i class="file-size" style="margin-right:10px;">@(UnitConversion.FileSizeExchange(Convert.ToInt32(fileInfo[2])))</i>
+                                <a class="remove-item iconfont icon-delete" href="javascript:void(0);" style="display:inline-block;text-decoration: none;" title="删除"></a>
+                            </div>
+                        }
+                    }
+                }
+            </div>
+            <div class="btns" style="overflow:hidden;line-height:10px;">
+                <div id="picker" style="display:inline-block;float:left;">添加附件</div>
+            </div>
+        </div>
+
+        <div class="notice-user">
+            <div class="user-way">
+                <span class="way-text">选择人员</span>
+                <span class="way-content">
+                    <a class="choose-user btn" data-way="1" style="width:48px;">选择人员</a>
+                </span>
+            </div>
+            
+            <div class="user-list">
+                <span class="list-text">指定人员</span>
+                <div class="list-con">
+                    <div class="con-choosed">
+                        <div class="choosed-roles">
+                            @if (receiverRoles.Count > 0)
+                            {
+                                foreach (UserRoleVM item in receiverRoles)
+                                {
+                                    <span class="con-item" data-userid="@(item.RoleID)">@item.RoleName</span>
+                                }
+                            }
+                        </div>
+                        <div class="choosed-users">
+                            @if (receivers.Count > 0)
+                            {
+                                foreach (ReceiverVM item in receivers)
+                                {
+                                    <span class="con-item" data-userid="@(item.ID)">@item.Name</span>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="notice-save marginTop20">
+            <a class="save" id="noticeSave">保存</a>
+            <a class="goBack">返回</a>
+        </div>
+        <input type="hidden" value="@(notice.ID)" name="noticeId" />
+    </div>
+
+    <div>
+        <input type="hidden" value="@(Url.Action("UploadFile", "Home"))" name="uploadPath" />
+        <input type="hidden" value="@(Url.Action("Download","Home"))" name="downloadPath" />
+        <input type="hidden" value="@(Url.Action("GetUserList", "Home"))" name="getUserListUrl" />
+        <input type="hidden" value="@(Url.Action("SaveNotice", "Home"))" name="saveNoticeUrl" />
+    </div>
+
+</div>
+
+@section scripts{
+    <script type="text/javascript" src="~/Content/plugins/webuploader/webuploader.js"></script>
+    <script type="text/javascript" src="~/Content/js/home-add.js"></script>
+}

@@ -1,0 +1,208 @@
+﻿@using WXB.Bussiness.ViewModels
+@using Wxb2018.Web.Utils
+@model PageVM<DutyLogVM>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var totalCount = Model == null ? 0 : Model.TotalCount;
+}
+
+@section head{
+    <style type="text/css">
+        .dutylog-list {
+            width: 80%;
+            text-align: left;
+            background-color: #fff;
+        }
+    </style>
+}
+<div class="dutylog-list auto">
+
+    <div class="list-search">
+        值班时间：
+        <input type="text" name="startTime" class="startTime" /><span class="wrap-symbol">～</span><input type="text" name="endTime" class="endTime" />
+        <input type="text" class="keywords" placeholder="输入用户名" />
+        <a href="javascript:void(0);" class="search btn">搜索</a>
+    </div>
+
+    <div class="list-content">
+        <table class="list-table" cellpadding="0" cellspacing="0" style="border-spacing:0px;">
+            <thead>
+                <tr>
+                    <td style="width:33%;">用户名</td>
+                    <td style="width:33%;">开始时间</td>
+                    <td style="width:33%;">结束时间</td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    if (Model != null && Model.Data != null)
+                    {
+                        foreach (var item in Model.Data)
+                        {
+                            <tr data-id="@(item.ID)">
+                                <td class="textCenter">
+                                    <span>@(item.UserName)</span>
+                                </td>
+                                <td class="textCenter" style="">
+                                    @( item.StartTime.ToString().DateTimeFormat())
+                                </td>
+                                <td class="textCenter" style="">
+                                    @( item.EndTime.ToString().DateTimeFormat())
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                    if (Model == null || Model.Data == null || Model.Data.Count == 0)
+                    {
+                        <tr class="no-data">
+                            <td colspan="3"><span>暂无数据</span></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+
+        <div class="list-page" style="width:100%;margin-top:15px;text-align:center;">
+            <div id="duty-pagination" class="m-style" style="display:inline-block;"></div>
+        </div>
+    </div>
+
+</div>
+@section scripts{
+    <script type="text/javascript">
+
+        $(function () {
+
+            var totalCount=@totalCount;
+            var searchUrl = '@Url.Action("GetDutyLogPageData", "DutyLog")';
+            var pageOptions={
+                isHide:true,
+                //mode:'fixed',
+                keepShowPN:false,
+                coping:true,
+                count:2,
+                prevContent: '<',
+                nextContent: '>',
+                totalData:totalCount,
+                showData:10,
+                callback: function (api) {
+
+                    var  params = {
+                        PageIndex: api.getCurrent(),
+                        KeyWord:$('.keywords').val(),
+                        StartTime:$('.startTime').val(),
+                        EndTime:$('.endTime').val()
+                    };
+
+                    $.post(searchUrl, params, function (data) {
+
+                        var dataHtml='';
+                        if (data.Code < 0) {
+                            dataHtml=   '<tr class="no-data">'+
+                                            '<td colspan="3"><span>暂无数据</span></td>'+
+                                        '</tr>';
+
+                            pageOptions.totalData=0;
+                        }else{
+
+                            var backData=data.Data;
+                            pageOptions.totalData=backData.TotalCount?backData.TotalCount:0;
+                            for (var i = 0; i <backData.Data.length; i++) {
+
+                                dataHtml+=  '<tr>'+
+                                              '<td class="textCenter" >'+
+                                                  '<span>'+backData.Data[i].UserName+'</span>'+
+                                              '</td>'+
+                                              '<td class="textCenter">'+backData.Data[i].StartTimeStr+'</td>'+
+                                              '<td class="textCenter">'+backData.Data[i].EndTimeStr+'</td>'+
+                                            '</tr>';
+                            }
+
+                        }
+
+                        $('tbody').html(dataHtml);
+                    });
+
+                }
+            };
+
+
+            //绑定分页
+            $('#duty-pagination').pagination(pageOptions);
+            if(totalCount==0) $('#duty-pagination').hide();
+
+            $('.topBar .record').addClass('topBar-active');
+
+            //值班日期
+            laydate.render({
+                elem: '.startTime',
+                type: 'date'
+            });
+
+            laydate.render({
+                elem: '.endTime',
+                type: 'date'
+            });
+
+            //enter 搜索
+            $('.keywords').on('keydown', function (e) {
+
+                if (e.keyCode == 13) {
+                    getLog();
+                }
+            });
+
+            //查询
+            $('.search').on('click',function(e){
+
+                getLog();
+            });
+
+            //获取查询数据
+            function getLog(){
+
+                var  params = {
+                    KeyWord:$('.keywords').val(),
+                    StartTime:$('.startTime').val(),
+                    EndTime:$('.endTime').val()
+                };
+
+                $.post(searchUrl, params, function (data) {
+
+                    var dataHtml='';
+                    if (data.Code < 0) {
+                        dataHtml=   '<tr class="no-data">'+
+                                        '<td colspan="3"><span>暂无数据</span></td>'+
+                                    '</tr>';
+
+                        //设置为0时显示的不对，暂时设为1是可以的
+                        pageOptions.totalData=1;
+                    }else{
+
+                        var backData=data.Data;
+                        pageOptions.totalData=backData.TotalCount?backData.TotalCount:0;
+
+                        for (var i = 0; i <backData.Data.length; i++) {
+
+                            dataHtml+=  '<tr>'+
+                                          '<td class="textCenter" >'+
+                                              '<span>'+backData.Data[i].UserName+'</span>'+
+                                          '</td>'+
+                                          '<td class="textCenter">'+backData.Data[i].StartTimeStr+'</td>'+
+                                          '<td class="textCenter">'+backData.Data[i].EndTimeStr+'</td>'+
+                                        '</tr>';
+                        }
+                    }
+
+                    $('tbody').html(dataHtml);
+                    //重新绑定分页
+                    $('#duty-pagination').pagination(pageOptions);
+                });
+            }
+
+        });
+    </script>
+}
