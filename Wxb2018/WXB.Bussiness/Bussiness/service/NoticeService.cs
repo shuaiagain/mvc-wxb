@@ -35,7 +35,7 @@ namespace WXB.Bussiness.Service
                 #region 获取用户信息
                 if (!string.IsNullOrEmpty(noticeVM.ChooseRoles) || !string.IsNullOrEmpty(noticeVM.ChoosedUserIds))
                 {
-                    using (var dbContextOne = new DbContext().ConnectionStringName(ConnectionUtil.connCMS, DbProviderTypes.MySql))
+                    using (var dbContextOne = new DbContext().ConnectionStringName(ConnectionUtil.connWXB, DbProviderTypes.MySql))
                     {
                         #region 获取指定角色的用户信息
 

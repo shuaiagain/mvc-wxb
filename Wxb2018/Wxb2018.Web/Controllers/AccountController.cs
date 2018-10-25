@@ -24,8 +24,8 @@ namespace Wxb2018.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return Redirect("/index.html");
-            //return View();
+            //return Redirect("/index.html");
+            return View();
         }
         #endregion
 

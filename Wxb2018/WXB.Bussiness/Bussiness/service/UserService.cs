@@ -30,7 +30,7 @@ namespace WXB.Bussiness.Service
 
             if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password)) return null;
 
-            using (var dbContext = new DbContext().ConnectionStringName(ConnectionUtil.connCMS, DbProviderTypes.MySql))
+            using (var dbContext = new DbContext().ConnectionStringName(ConnectionUtil.connWXB, DbProviderTypes.MySql))
             {
 
                 string sql = string.Format(@"select  
@@ -103,7 +103,7 @@ namespace WXB.Bussiness.Service
 
             if (userId == 0) return null;
 
-            using (var dbContext = new DbContext().ConnectionStringName(ConnectionUtil.connCMS, DbProviderTypes.MySql))
+            using (var dbContext = new DbContext().ConnectionStringName(ConnectionUtil.connWXB, DbProviderTypes.MySql))
             {
 
                 string sql = string.Format(@"select  
@@ -165,7 +165,7 @@ namespace WXB.Bussiness.Service
         public List<UserItemVM> GetUserList()
         {
 
-            using (var dbContext = new DbContext().ConnectionStringName(ConnectionUtil.connCMS, DbProviderTypes.MySql))
+            using (var dbContext = new DbContext().ConnectionStringName(ConnectionUtil.connWXB, DbProviderTypes.MySql))
             {
                 string sql = @" select 
 	                            ID,
